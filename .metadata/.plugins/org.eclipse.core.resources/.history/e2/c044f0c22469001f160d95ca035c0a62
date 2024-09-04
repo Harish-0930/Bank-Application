@@ -1,0 +1,43 @@
+package com.project.bank.service;
+
+
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.project.bank.entity.Loan;
+import com.project.bank.repository.AccountRepository;
+import com.project.bank.repository.LoanRepository;
+
+public class LoanService {
+	
+	 @Autowired
+	    private LoanRepository loanRepository;
+
+	    @Autowired
+	    private AccountRepository accountRepository;
+
+	    public Loan applyLoan(Loan loan) {
+	    	if(!accountRepository.existsById(loan.getAccount().getAccNo())) {
+	    		throw new IllegalArgumentException("Account not found");
+	    	}
+	    	Loan createLoan=new Loan();
+	    	createLoan.setLoanType(loan.getLoanType());
+	    	createLoan.setAmount(loan.getAmount());
+	    	createLoan.setTenure(loan.getTenure());
+	    	createLoan.setAppliedDate(new Date());
+	    	createLoan.setRateOfInterest(10);
+	    	createLoan.setLoanStatus("pending");
+	    	createLoan.setAccount(accountRepository.findById(loan.getAccount().getAccNo()).orElseThrow(()
+	    			-> new IllegalArgumentException("Account not found")) );
+	    	
+	    	
+	    	
+	    	
+	    	
+	    }
+	
+	    
+	    
+	}

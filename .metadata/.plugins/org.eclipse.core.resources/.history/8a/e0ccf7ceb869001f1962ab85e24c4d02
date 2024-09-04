@@ -1,0 +1,5 @@
+package com.project.bank.dto;
+
+public class EMIResponseDTO {
+
+}

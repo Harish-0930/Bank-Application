@@ -1,0 +1,56 @@
+package com.project.bank.service;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.bank.dto.LoanDTO;
+import com.project.bank.entity.Loan;
+import com.project.bank.repository.AccountRepository;
+import com.project.bank.repository.LoanRepository;
+
+@Service
+public class LoanService {
+	
+	 	@Autowired
+	    private LoanRepository loanRepository;
+
+	    @Autowired
+	    private AccountRepository accountRepository;
+
+	    public LoanDTO applyLoan(LoanDTO loanDTO) {
+	        // Check if account exists
+	        if (!accountRepository.existsById(loanDTO.getAccountAccNo())) {
+	            throw new IllegalArgumentException("Account not found");
+	        }
+
+	        // Create a new Loan instance
+	        Loan loan = new Loan();
+	        loan.setLoanType(loanDTO.getLoanType());
+	        loan.setAmount(loanDTO.getAmount());
+	        loan.setTenure(loanDTO.getTenure());
+	        loan.setAppliedDate(loanDTO.getAppliedDate());
+	        loan.setRateOfInterest(loanDTO.getRateOfInterest());
+	        loan.setLoanStatus(loanDTO.getLoanStatus());
+
+	        // Set the associated Account
+	        loan.setAccount(accountRepository.findById(loanDTO.getAccountAccNo()).orElseThrow(() -> new IllegalArgumentException("Account not found")));
+
+	        // Save the loan and return DTO
+	        Loan savedLoan = loanRepository.save(loan);
+
+	        // Map the saved entity to DTO
+	        LoanDTO savedLoanDTO = new LoanDTO();
+	        savedLoanDTO.setLoanId(savedLoan.getLoanId());
+	        savedLoanDTO.setLoanType(savedLoan.getLoanType());
+	        savedLoanDTO.setAmount(savedLoan.getAmount());
+	        savedLoanDTO.setTenure(savedLoan.getTenure());
+	        savedLoanDTO.setAppliedDate(savedLoan.getAppliedDate());
+	        savedLoanDTO.setRateOfInterest(savedLoan.getRateOfInterest());
+	        savedLoanDTO.setLoanStatus(savedLoan.getLoanStatus());
+	        savedLoanDTO.setAccountId(savedLoan.getAccount().getAccNo());
+
+	        return savedLoanDTO;
+	    }
+	}

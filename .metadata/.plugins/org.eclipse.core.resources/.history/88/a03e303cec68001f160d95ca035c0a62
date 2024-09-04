@@ -1,0 +1,5 @@
+package com.project.bank.exception;
+
+public class GlobalExceptionHandler {
+
+}

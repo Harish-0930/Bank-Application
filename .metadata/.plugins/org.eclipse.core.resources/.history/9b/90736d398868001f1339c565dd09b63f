@@ -1,0 +1,67 @@
+package com.project.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.project.Service.AdminService;
+import com.project.bank.dto.AccountDisplay;
+import com.project.bank.dto.CustomerDisplay;
+import com.project.bank.entity.Customer;
+import com.project.bank.service.CustomerService;
+import com.project.entity.Admin;
+
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+
+    @Autowired
+    private AdminService adminService;
+    
+    @Autowired
+    private CustomerService customerService;
+
+    @PostMapping("/login")
+    public String login(@RequestBody Admin admin) {
+        Admin loggedInAdmin = adminService.loginAdmin(admin.getEmail(), admin.getPassword());
+        if (loggedInAdmin != null) {
+            return "Dashboard"; // Redirect or return dashboard page
+        } else {
+            return "Login failed";
+        }
+    }
+    
+    @GetMapping("/customer/by-account/{accNo}")
+    public ResponseEntity<Customer> getCustomerByAccountNo(@PathVariable("accNo") int accNo) {
+        Customer customer = customerService.getCustomerByAccountNo(accNo);
+        if (customer != null) {
+            return ResponseEntity.ok(customer);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+	@GetMapping("/allcustomers")
+	public ResponseEntity<List<CustomerDisplay>> getAllCustomers(){
+	    List<CustomerDisplay> customers = customerService.getAllCustomers();
+	    return ResponseEntity.ok(customers);
+	}
+    
+	@GetMapping("/allaccounts")
+	public ResponseEntity<List<AccountDisplay>> getAllAccounts(){
+		List<AccountDisplay> account = accountService.getAllAccounts();
+		return ResponseEntity.ok(account);
+	}
+	
+
+
+}
+

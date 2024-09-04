@@ -1,0 +1,40 @@
+package com.Admin.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.Admin.Service.AdminService;
+
+import com.Admin.entity.Admin;
+
+import com.myfinbank.repository.AccountRepository;
+import com.myfinbank.repository.CustomerRepository;
+
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+
+    @Autowired
+    private AdminService adminService;
+    
+
+    @PostMapping("/login")
+    public String login(@RequestBody Admin admin) {
+        Admin loggedInAdmin = adminService.loginAdmin(admin.getEmail(), admin.getPassword());
+        if (loggedInAdmin != null) {
+            return "Dashboard"; // Redirect or return dashboard page
+        } else {
+            return "Login failed";
+        }
+    }
+    
+
+}
+

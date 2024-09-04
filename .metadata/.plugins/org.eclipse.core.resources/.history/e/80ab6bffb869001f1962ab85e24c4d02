@@ -1,0 +1,22 @@
+package com.project.bank.dto;
+
+public class EMIResponseDTO {
+    private int loanId;
+    private double emi;
+    private String loanStatus;
+
+	public EMIResponseDTO() {
+		super();
+	}
+	
+    public EMIResponseDTO(int loanId, double emi, String loanStatus) {
+        this.loanId = loanId;
+        this.emi = emi;
+        this.loanStatus = loanStatus;
+    }
+
+
+
+
+    
+}

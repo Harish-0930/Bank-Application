@@ -1,0 +1,39 @@
+package com.project.bank.service;
+
+
+
+import java.util.Date;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.bank.dto.LoanDTO;
+import com.project.bank.entity.Account;
+import com.project.bank.entity.Loan;
+import com.project.bank.repository.AccountRepository;
+import com.project.bank.repository.LoanRepository;
+
+@Service
+public class LoanService {
+	
+	 	@Autowired
+	    private LoanRepository loanRepository;
+
+	    @Autowired
+	    private AccountRepository accountRepository;
+
+	    public void applyLoan(LoanDTO loanDTO) {
+	        Loan loan = new Loan();
+	        loan.setLoanType(loanDTO.getLoanType());
+	        loan.setAmount(loanDTO.getAmount());
+	        loan.setTenure(loanDTO.getTenure());
+	        loan.setAppliedDate(new Date());
+	        loan.setRateOfInterest(loanDTO.getRateOfInterest());
+	        loan.setLoanStatus("Pending");
+
+	        Optional<Account> account = accountRepository.findById(loanDTO.getAccountAccNo());
+	        loan.setAccount(account.get());
+
+	        loanRepository.save(loan);
+	    }	}

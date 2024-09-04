@@ -1,0 +1,42 @@
+package com.project.bank.service;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.project.bank.entity.Account;
+import com.project.bank.entity.Loan;
+import com.project.bank.repository.AccountRepository;
+import com.project.bank.repository.LoanRepository;
+
+public class LoanService {
+	
+	 @Autowired
+	    private LoanRepository loanRepository;
+
+	    @Autowired
+	    private AccountRepository accountRepository;
+
+	    public Loan applyLoan(int accNo, String loanType, double amount, int tenure) {
+	        // Retrieve the account
+	        Account account = accountRepository.findById(accNo).orElse(null);
+
+	        if (account == null) {
+	            return null; // Or throw an exception
+	        }
+
+	        // Create a new loan
+	        Loan loan = new Loan();
+	        loan.setLoanType(loanType);
+	        loan.setAmount(amount);
+	        loan.setTenure(tenure);
+	        loan.setAppliedDate(new Date()); // Set the current date
+	        loan.setRateOfInterest(10.0); // Set the rate of interest to 10%
+	        loan.setAccount(account);
+
+	        // Save the loan to the repository
+	        return loanRepository.save(loan);
+	    }
+	}
+
+}

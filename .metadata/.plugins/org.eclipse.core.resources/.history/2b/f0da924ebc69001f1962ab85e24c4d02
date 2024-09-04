@@ -1,0 +1,46 @@
+package com.project.bank.dto;
+
+public class EMIResponseDTO {
+    private int loanId;
+    private double emi;
+    private String loanStatus;
+
+	public EMIResponseDTO() {
+		super();
+	}
+	
+    public int getLoanId() {
+		return loanId;
+	}
+
+	public void setLoanId(int loanId) {
+		this.loanId = loanId;
+	}
+
+	public double getEmi() {
+		return emi;
+	}
+
+	public void setEmi(double emi) {
+		this.emi = emi;
+	}
+
+	public String getLoanStatus() {
+		return loanStatus;
+	}
+
+	public void setLoanStatus(String loanStatus) {
+		this.loanStatus = loanStatus;
+	}
+
+	public EMIResponseDTO(int loanId, double emi, String loanStatus) {
+        this.loanId = loanId;
+        this.emi = emi;
+        this.loanStatus = loanStatus;
+    }
+
+
+
+
+    
+}
